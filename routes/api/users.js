@@ -29,7 +29,7 @@ router.post('/',[
         if(user){
             return res.status(400).json({errors:[{msg:"User Already registered"}]})
         }
-    
+        else{
         //get gravator
         const avator=gravator.url(email,{
             s:'200',
@@ -53,7 +53,7 @@ router.post('/',[
             if(err) throw err;
             res.json({token});
         })
-
+    }
     }catch(err){
         console.error(err.message);
         res.status(500).send("Server Error")
