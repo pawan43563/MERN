@@ -15,6 +15,7 @@ router.get('/me',auth,async (req,res)=> {
         if(!profile){
             return res.status(400).json({msg:"Profile Not Found"})
         }
+        res.json(profile)
     }catch(err){
         console.error(err.message)
         res.status(500).json({msg:"Server Error"})
