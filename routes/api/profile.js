@@ -6,6 +6,7 @@ const Profile=require("../../models/Profile")
 const config=require('config')
 const request=require("request")
 const {check,validationResult}=require("express-validator")
+const Post=require("../../models/Post")
 //@route GET api/profile/me
 //@desc TEST Route
 //@access private
@@ -113,7 +114,7 @@ router.get('/user/:user_id',async (req,res)=>{
 router.delete('/',auth,async (req,res)=>{
     try{
         //remove posts
-
+        await Post.deleteMany({user:req.user.id})
         //remove profile
         await Profile.findOneAndRemove({user:req.user.id})
         //remove user
@@ -134,7 +135,7 @@ router.put('/experience',[auth,[
 ]],async (req,res)=>{
     const errors=validationResult(req)
     if(!errors.isEmpty()){
-        res.status(400).json({error:errors.array()})
+        return res.status(400).json({error:errors.array()})
     }
     const {
         title,
@@ -156,6 +157,7 @@ router.put('/experience',[auth,[
      description
     }
     try{
+
         const profile=await Profile.findOne({user:req.user.id});
         profile.experience.unshift(newExp);
         await profile.save()
@@ -192,7 +194,7 @@ router.put('/education',[auth,[
 ]],async (req,res)=>{
     const errors=validationResult(req)
     if(!errors.isEmpty()){
-        res.status(400).json({error:errors.array()})
+        return res.status(400).json({error:errors.array()})
     }
     const {
         school,

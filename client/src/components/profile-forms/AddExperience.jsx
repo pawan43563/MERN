@@ -50,10 +50,10 @@ const AddExperience=({addExperience,history})=>{
         </div>
         <div className="form-group">
           <h4>From Date</h4>
-          <input type="date" name="from" />
+          <input type="date" name="from" value={from} onChange={e=>onChange(e)} />
         </div>
          <div className="form-group">
-          <p><input type="checkbox" checked={current} name="current" value={from} onChange={e=>{
+          <p><input type="checkbox" checked={current} name="current" value={current} onChange={e=>{
               setformdata({...formData,current:!current});
               toggledisaable(!todatedisable)
           }} />{' '} Current Job</p>
@@ -86,4 +86,4 @@ AddExperience.propTypes={
 
 
 
-export default connect(null,{addExperience})(AddExperience)
+export default connect(null,{addExperience})(withRouter(AddExperience))
