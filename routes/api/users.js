@@ -2,7 +2,7 @@ const express=require('express');
 const router=express.Router();
 const {check,validationResult}=require('express-validator')
 const bcrypt=require("bcryptjs")
-const gravator=require("gravatar")
+const gravatar=require("gravatar")
 const config=require("config")
 const jwt=require("jsonwebtoken")
 //model
@@ -31,13 +31,13 @@ router.post('/',[
         }
         else{
         //get gravator
-        const avator=gravator.url(email,{
+        const avatar=gravatar.url(email,{
             s:'200',
             r:'pg',
             d:'mm'
         })
 
-        user=new User({name,email,avator,password});
+        user=new User({name,email,avatar,password});
         //Encrypt password
         const salt=await bcrypt.genSalt(10)
         user.password=await bcrypt.hash(password,salt);

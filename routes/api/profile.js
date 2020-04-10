@@ -19,7 +19,7 @@ router.get('/me',auth,async (req,res)=> {
         res.json(profile)
     }catch(err){
         console.error(err.message)
-        res.status(500).json({msg:"Server Error"})
+        return  res.status(500).json({msg:"Server Error"})
     }
 });
 
@@ -77,7 +77,7 @@ router.post(
         }
       }catch(err){
           console.error(err.message)
-          res.status(400).json({msg:"Server Error"})
+          return  res.status(400).json({msg:"Server Error"})
       }
     }
   );
@@ -87,10 +87,11 @@ router.post(
 router.get('/',async (req,res)=>{
     try{
         const profiles=await Profile.find().populate('user',['name','avatar'])
+        console.log("came")
         res.json(profiles)
     }catch(err){
         console.error(err.message)
-        res.status(500).json({msg:"Server Error"})
+        return  res.status(500).json({msg:"Server Error"})
     }
 })
 
@@ -106,7 +107,7 @@ router.get('/user/:user_id',async (req,res)=>{
         if(err.kind=='ObjectId'){
             return res.status(400).json({msg:"Profile Not Found"})
         }
-        res.status(500).json({msg:"Server Error"})
+        return  res.status(500).json({msg:"Server Error"})
     }
 })
 
@@ -123,7 +124,7 @@ router.delete('/',auth,async (req,res)=>{
         res.status(200).json({msg:"User Removed"})
     }catch(err){
         console.error(err.message)
-        res.status(500).json({msg:"Server Error"})
+        return res.status(500).json({msg:"Server Error"})
     }
 })
 
@@ -164,7 +165,7 @@ router.put('/experience',[auth,[
         res.json(profile)
     }catch(err){
         console.error(err.message)
-        res.status(400).json({msg:"Server Error"})
+        return  res.status(400).json({msg:"Server Error"})
     }
 })
 
@@ -180,7 +181,7 @@ router.delete('/experience/:exp_id',auth,async (req,res)=>{
         res.json(profile)
     }catch(err){
         console.error(err.message)
-        res.status(400).json({msg:"Server Error"})
+        return res.status(400).json({msg:"Server Error"})
     }
 })
 
@@ -222,7 +223,7 @@ router.put('/education',[auth,[
         res.json(profile)
     }catch(err){
         console.error(err.message)
-        res.status(400).json({msg:"Server Error"})
+        return res.status(400).json({msg:"Server Error"})
     }
 })
 
@@ -238,7 +239,7 @@ router.delete('/education/:edu_id',auth,async (req,res)=>{
         res.json(profile)
     }catch(err){
         console.error(err.message)
-        res.status(400).json({msg:"Server Error"})
+        return res.status(400).json({msg:"Server Error"})
     }
 })
 
@@ -261,7 +262,7 @@ router.get('/github/:username',(req,res)=>{
         })
     }catch(err){
         console.error(err.message)
-        res.status(400).json({msg:"Server Error"})
+        return res.status(400).json({msg:"Server Error"})
     }
 })
 
