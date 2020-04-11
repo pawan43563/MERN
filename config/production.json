@@ -1,0 +1,6 @@
+{
+    "mongoURI":"mongodb+srv://pawan:SCience@123@cluster0-p3dl1.mongodb.net/test?retryWrites=true&w=majority",
+    "jwtSecret":"PawanSharma",
+    "githubClientId":"c550f172ca9086906428",
+    "githubSecret":"c498b57cf4a0681d00b2d80ce01c3d937b6f9c09"
+}
