@@ -50,7 +50,7 @@ const EditProfile=({profile:{profile,loading},getCurrentProfile,createProfile,hi
         ?'': profile.social.instagram
         ,
         })
-    },[loading,getCurrentProfile])
+    },[loading,getCurrentProfile,setformdata])
 
     function onChange(e){
         return setformdata({...formData,[e.target.name]:e.target.value})
