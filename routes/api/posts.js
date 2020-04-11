@@ -161,34 +161,34 @@ router.post(
   // @route   DELETE api/posts/comment/:id/:comment_id
   // @desc    Remove comment from post
   // @access  Private
-  router.delete(
-    '/comment/:id/:comment_id',
-    auth,
-    async (req, res) => {
-      Post.findById(req.params.id)
-        .then(post => {
-          // Check to see if comment exists
-          if (
-            post.comments.filter(
-              comment => comment._id.toString() === req.params.comment_id
-            ).length === 0
-          ) {
-            return res
-              .status(404)
-              .json({ commentnotexists: 'Comment does not exist' });
-          }
+  router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
+    try {
+      const post = await Post.findById(req.params.id);
   
-          // Get remove index
-          const removeIndex = post.comments
-            .map(item => item._id.toString())
-            .indexOf(req.params.comment_id);
+      // Pull out comment
+      const comment = post.comments.find(
+        comment => comment.id === req.params.comment_id
+      );
+      // Make sure comment exists
+      if (!comment) {
+        return res.status(404).json({ msg: 'Comment does not exist' });
+      }
+      // Check user
+      if (comment.user.toString() !== req.user.id) {
+        return res.status(401).json({ msg: 'User not authorized' });
+      }
   
-          // Splice comment out of array
-          post.comments.splice(removeIndex, 1);
+      post.comments = post.comments.filter(
+        ({ id }) => id !== req.params.comment_id
+      );
   
-          post.save().then(post => res.json(post));
-        })
-        .catch(err => res.status(404).json({ postnotfound: 'No post found' }));
+      await post.save();
+  
+      return res.json(post.comments);
+    } catch (err) {
+      console.error(err.message);
+      return res.status(500).send('Server Error');
     }
-  );
+  });
+  
 module.exports=router;
